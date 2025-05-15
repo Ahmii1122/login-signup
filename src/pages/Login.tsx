@@ -13,8 +13,9 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = await dosigninwithemailandpassword({
-      email,
+      email: email,
       password: password,
+      name: "",
     });
     console.log(result);
     navigate("/home");

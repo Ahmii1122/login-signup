@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { docreateUserWithEmailAndPassword } from "../firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -15,11 +17,14 @@ const Signup = () => {
       alert("Passwords do not match!");
       return;
     }
-    await docreateUserWithEmailAndPassword({
-      email,
-      password: password,
-    });
-    navigate("/home");
+    try {
+      await docreateUserWithEmailAndPassword({ name, email, password });
+      navigate("/home");
+    } catch (error: any) {
+      alert(error.message || "Failed to sign up. Please try again.");
+    }
+
+    // navigate("/home");
   };
 
   return (
